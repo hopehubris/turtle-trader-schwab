@@ -77,21 +77,49 @@ echo "  Tokens received."
 
 # ── 4. Get account number hash ────────────────────────────────────────────────
 echo ""
-echo "Step 3: Fetching your account number..."
+echo "Step 3: Fetching your accounts..."
 
 ACCOUNTS_RESPONSE=$(curl -s "https://api.schwabapi.com/trader/v1/accounts/accountNumbers" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}")
 
-# Parse JSON via stdin
-ACCOUNT_HASH=$(printf '%s' "$ACCOUNTS_RESPONSE" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d[0]["hashValue"])' 2>/dev/null || true)
+# Parse and display all accounts
+ACCOUNT_COUNT=$(printf '%s' "$ACCOUNTS_RESPONSE" | python3 -c 'import json,sys; print(len(json.load(sys.stdin)))' 2>/dev/null || true)
 
-if [[ -z "$ACCOUNT_HASH" ]]; then
+if [[ -z "$ACCOUNT_COUNT" || "$ACCOUNT_COUNT" == "0" ]]; then
   echo ""
-  echo "ERROR: Could not fetch account hash. Schwab response:"
+  echo "ERROR: Could not fetch accounts. Schwab response:"
   echo "$ACCOUNTS_RESPONSE"
   exit 1
 fi
-echo "  Account hash found."
+
+echo ""
+printf '%s' "$ACCOUNTS_RESPONSE" | python3 -c '
+import json, sys
+accounts = json.load(sys.stdin)
+for i, a in enumerate(accounts):
+    print(f"  [{i+1}] Account: {a[\"accountNumber\"]}  (hash: {a[\"hashValue\"][:12]}...)")
+'
+
+echo ""
+if [[ "$ACCOUNT_COUNT" == "1" ]]; then
+  ACCOUNT_INDEX=0
+  echo "  Only one account found — selecting it automatically."
+else
+  read -rp "Select account [1-${ACCOUNT_COUNT}]: " ACCOUNT_CHOICE
+  if ! [[ "$ACCOUNT_CHOICE" =~ ^[0-9]+$ ]] || (( ACCOUNT_CHOICE < 1 || ACCOUNT_CHOICE > ACCOUNT_COUNT )); then
+    echo "ERROR: Invalid selection."
+    exit 1
+  fi
+  ACCOUNT_INDEX=$(( ACCOUNT_CHOICE - 1 ))
+fi
+
+ACCOUNT_HASH=$(printf '%s' "$ACCOUNTS_RESPONSE" | ACCOUNT_INDEX="$ACCOUNT_INDEX" python3 -c '
+import json, sys, os
+accounts = json.load(sys.stdin)
+print(accounts[int(os.environ["ACCOUNT_INDEX"])]["hashValue"])
+')
+
+echo "  Account hash selected."
 
 # ── 5. Write .env ─────────────────────────────────────────────────────────────
 echo ""
