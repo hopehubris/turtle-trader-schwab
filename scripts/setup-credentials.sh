@@ -54,7 +54,7 @@ echo "Step 2: Exchanging authorization code for tokens..."
 # Build Basic auth header via env vars — keeps secrets out of process argv
 CREDENTIALS=$(APP_KEY="$APP_KEY" APP_SECRET="$APP_SECRET" python3 -c '
 import os, base64
-pair = f"{os.environ[\"APP_KEY\"]}:{os.environ[\"APP_SECRET\"]}"
+pair = os.environ["APP_KEY"] + ":" + os.environ["APP_SECRET"]
 print(base64.b64encode(pair.encode()).decode())
 ')
 
