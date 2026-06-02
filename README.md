@@ -1,59 +1,126 @@
 # 🐢 Turtle Trader (Schwab)
 
-Donchian Channel breakout bot implementing classic Turtle Trading methodology, powered by Charles Schwab brokerage.
+A fully automated implementation of the classic [Turtle Trading](docs/STRATEGY.md) system, connected to Charles Schwab brokerage via the official Schwab Developer API.
 
-Identical feature set and UI to the Alpaca-based Turtle Trader — only the broker integration differs.
+Identical feature set and UI to the original Alpaca-based Turtle Trader — only the broker integration differs.
 
-## Stack
-
-- **Backend**: Node.js / TypeScript / Express / Prisma / SQLite
-- **Frontend**: React / Vite / TailwindCSS / lightweight-charts
-- **Broker**: Charles Schwab Developer API (OAuth2)
-- **Ports**: Backend 3010, Frontend 5574
-
-## Setup
-
-### 1. Schwab API Credentials
-
-Obtain credentials from [developer.schwab.com](https://developer.schwab.com):
-
-```
-SCHWAB_CLIENT_ID=your-client-id
-SCHWAB_CLIENT_SECRET=your-client-secret
-SCHWAB_REFRESH_TOKEN=your-refresh-token
-SCHWAB_ACCOUNT_NUMBER=your-account-number
-```
-
-Copy to `backend/.env` (see `backend/.env.example`).
-
-### 2. Run
-
-```bash
-# Backend
-cd backend && npm install && npx prisma migrate dev && npm run dev
-
-# Frontend (separate terminal)
-cd frontend && npm install && npm run dev
-```
-
-Frontend: http://localhost:5574  
-Backend API: http://localhost:3010/api/health
-
-## Strategy
-
-- **System 1**: 20-day Donchian breakout entry, 10-day exit
-- **System 2**: 55-day Donchian breakout entry, 20-day exit
-- **Position sizing**: ATR-based unit sizing (1% equity risk per unit)
-- **Pyramiding**: Up to 4 units at 0.5N increments
-- **Stop losses**: 2N trailing stops
+---
 
 ## Features
 
-- Automated daily scanner (4pm ET weekdays, configurable cron)
-- Classic and Terminal view modes
-- Real-time open trade monitoring with live P&L from Schwab
-- Schwab position sync and exit reconciliation
-- Donchian channel charts with System 1/2 overlays
-- Full trade history with performance stats
-- Dry run mode for paper trading simulation
-- Fidelity manual order queue as secondary broker option
+- **Donchian Channel breakout strategy** — System 1 (20-day) and System 2 (55-day) running simultaneously
+- **ATR-based position sizing** — every trade risks an identical dollar amount regardless of price or volatility
+- **Pyramiding** — adds up to 4 units as a trend confirms, 0.5N apart
+- **Automated daily scanner** — runs at 4pm ET weekdays via cron (configurable)
+- **Catch-up scans** — automatically scans on startup if a trading day was missed
+- **Two UI themes** — Terminal (dark, monospace) and Classic (light/dark, card-based)
+- **Live P&L** — open trades enriched with real-time prices from Schwab
+- **Schwab sync** — one-click reconciliation of DB positions vs. live Schwab account
+- **Donchian charts** — interactive candlestick charts with System 1/2 channel overlays
+- **Dry run mode** — simulates all orders without touching your brokerage account
+- **Fidelity fallback** — optional manual order queue for Fidelity users
+
+---
+
+## Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Backend | Node.js, TypeScript, Express |
+| Database | SQLite via Prisma ORM |
+| Scheduler | node-cron |
+| Broker | Charles Schwab Developer API (OAuth2) |
+| Market data | Schwab `/pricehistory` endpoint |
+| Frontend | React 18, Vite, TailwindCSS |
+| Charts | lightweight-charts |
+| Ports | Backend **3010**, Frontend **5574** |
+
+---
+
+## Quick Start
+
+### 1. Get Schwab API credentials
+
+See **[docs/SCHWAB_SETUP.md](docs/SCHWAB_SETUP.md)** for the full walkthrough.
+
+You'll need:
+- `SCHWAB_CLIENT_ID`
+- `SCHWAB_CLIENT_SECRET`
+- `SCHWAB_REFRESH_TOKEN`
+- `SCHWAB_ACCOUNT_NUMBER`
+
+### 2. Configure environment
+
+```bash
+cp backend/.env.example backend/.env
+# Edit backend/.env with your credentials
+```
+
+### 3. Install and run
+
+```bash
+# Backend
+cd backend
+npm install
+npx prisma migrate dev
+npm run dev
+
+# Frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+Open **http://localhost:5574**
+
+---
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [SCHWAB_SETUP.md](docs/SCHWAB_SETUP.md) | How to obtain Schwab API credentials |
+| [USER_GUIDE.md](docs/USER_GUIDE.md) | Complete guide to every feature and screen |
+| [STRATEGY.md](docs/STRATEGY.md) | Turtle Trading system explanation |
+| [CONFIGURATION.md](docs/CONFIGURATION.md) | All settings reference |
+| [API.md](docs/API.md) | REST API reference |
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design and data flow |
+| [INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md) | Production deployment guide |
+| [DEVELOPMENT.md](docs/DEVELOPMENT.md) | Dev setup, testing, project structure |
+
+---
+
+## Project Structure
+
+```
+turtle-trader-schwab/
+├── backend/
+│   ├── src/
+│   │   ├── services/
+│   │   │   ├── schwabClient.ts        # Schwab OAuth2 + trading API
+│   │   │   ├── brokerService.ts       # Broker abstraction (Schwab / Fidelity)
+│   │   │   ├── marketDataService.ts   # Price history via Schwab
+│   │   │   ├── indicatorService.ts    # ATR, Donchian (pure functions)
+│   │   │   ├── turtleSignalService.ts # Entry/exit/unit-add signal logic
+│   │   │   ├── turtleScannerService.ts# Daily scan orchestration
+│   │   │   ├── tradeService.ts        # Trade + unit CRUD
+│   │   │   ├── configService.ts       # Settings CRUD
+│   │   │   └── statsService.ts        # P&L statistics
+│   │   ├── api/routes/                # Express route handlers
+│   │   ├── jobs/dailyScan.ts          # node-cron scheduler
+│   │   └── utils/                     # Logger, market calendar
+│   ├── prisma/schema.prisma           # Database schema
+│   └── __tests__/                     # Jest unit tests (42 tests)
+├── frontend/
+│   └── src/
+│       ├── api/client.ts              # Typed API client
+│       ├── pages/                     # Dashboard, Trades, Signals, Settings, Help
+│       └── components/                # Reusable UI components
+└── docs/                              # This documentation
+```
+
+---
+
+## License
+
+MIT
