@@ -29,16 +29,16 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
       width: containerRef.current.clientWidth,
       height: 420,
       layout: {
-        background: { type: ColorType.Solid, color: '#0f172a' },
-        textColor: '#94a3b8',
+        background: { type: ColorType.Solid, color: '#0d1a2a' },
+        textColor: '#94b8d4',
       },
       grid: {
-        vertLines: { color: '#1e293b' },
-        horzLines: { color: '#1e293b' },
+        vertLines: { color: '#1a2f47' },
+        horzLines: { color: '#1a2f47' },
       },
       crosshair: { mode: 1 },
-      rightPriceScale: { borderColor: '#334155' },
-      timeScale: { borderColor: '#334155', timeVisible: true },
+      rightPriceScale: { borderColor: '#1e3550' },
+      timeScale: { borderColor: '#1e3550', timeVisible: true },
     })
 
     const candleSeries = chart.addSeries(CandlestickSeries, {
@@ -69,10 +69,10 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
     const lower = sys === 'sys1' ? chartData.indicators.sys1Lower : chartData.indicators.sys2Lower
     const exitLower = sys === 'sys1' ? chartData.indicators.sys1ExitLower : chartData.indicators.sys2ExitLower
 
-    const entryUpperLine = chart.addSeries(LineSeries, { color: '#3b82f6', lineWidth: 1, lineStyle: LineStyle.Dashed, title: 'Entry Upper' })
+    const entryUpperLine = chart.addSeries(LineSeries, { color: '#579bd8', lineWidth: 1, lineStyle: LineStyle.Dashed, title: 'Entry Upper' })
     entryUpperLine.setData(toLineData(upper))
 
-    const entryLowerLine = chart.addSeries(LineSeries, { color: '#3b82f6', lineWidth: 1, lineStyle: LineStyle.Dashed, title: 'Entry Lower' })
+    const entryLowerLine = chart.addSeries(LineSeries, { color: '#579bd8', lineWidth: 1, lineStyle: LineStyle.Dashed, title: 'Entry Lower' })
     entryLowerLine.setData(toLineData(lower))
 
     const exitLine = chart.addSeries(LineSeries, { color: '#f59e0b', lineWidth: 1, lineStyle: LineStyle.Dotted, title: 'Exit Lower' })
@@ -105,9 +105,9 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
       style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div style={{ background: '#0f172a', borderRadius: '12px', width: '100%', maxWidth: '900px', overflow: 'hidden', border: '1px solid #1e293b' }}>
+      <div style={{ background: '#0d1a2a', borderRadius: '12px', width: '100%', maxWidth: '900px', overflow: 'hidden', border: '1px solid #1a2f47' }}>
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #1e293b' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #1a2f47' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <span style={{ fontSize: '18px', fontWeight: 700, color: '#f1f5f9' }}>{symbol}</span>
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -117,8 +117,8 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
                   onClick={() => setActiveSystem(s)}
                   style={{
                     padding: '4px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer',
-                    background: activeSystem === s ? '#3b82f6' : '#1e293b',
-                    color: activeSystem === s ? '#fff' : '#94a3b8',
+                    background: activeSystem === s ? '#579bd8' : '#1a2f47',
+                    color: activeSystem === s ? '#fff' : '#94b8d4',
                   }}
                 >
                   {s === 'sys1' ? `System 1 (${cfg?.sys1Entry ?? 20}d)` : `System 2 (${cfg?.sys2Entry ?? 55}d)`}
@@ -128,24 +128,24 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
           </div>
           <button
             onClick={onClose}
-            style={{ background: '#1e293b', border: 'none', color: '#94a3b8', width: '28px', height: '28px', borderRadius: '6px', cursor: 'pointer', fontSize: '16px' }}
+            style={{ background: '#1a2f47', border: 'none', color: '#94b8d4', width: '28px', height: '28px', borderRadius: '6px', cursor: 'pointer', fontSize: '16px' }}
           >
             ✕
           </button>
         </div>
 
         {/* Legend */}
-        <div style={{ padding: '8px 20px', display: 'flex', gap: '16px', borderBottom: '1px solid #1e293b' }}>
+        <div style={{ padding: '8px 20px', display: 'flex', gap: '16px', borderBottom: '1px solid #1a2f47' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '20px', height: '2px', background: '#3b82f6', borderTop: '2px dashed #3b82f6' }} />
-            <span style={{ fontSize: '11px', color: '#94a3b8' }}>Entry Channel</span>
+            <div style={{ width: '20px', height: '2px', background: '#579bd8', borderTop: '2px dashed #579bd8' }} />
+            <span style={{ fontSize: '11px', color: '#94b8d4' }}>Entry Channel</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <div style={{ width: '20px', height: '2px', background: '#f59e0b', borderTop: '2px dotted #f59e0b' }} />
-            <span style={{ fontSize: '11px', color: '#94a3b8' }}>Exit Level</span>
+            <span style={{ fontSize: '11px', color: '#94b8d4' }}>Exit Level</span>
           </div>
           {cfg && (
-            <span style={{ fontSize: '11px', color: '#64748b' }}>
+            <span style={{ fontSize: '11px', color: '#5a7a94' }}>
               ATR period: {cfg.atrPeriod}d · Exit: {activeSystem === 'sys1' ? cfg.sys1Exit : cfg.sys2Exit}d
             </span>
           )}
@@ -154,7 +154,7 @@ export default function TradeChartModal({ symbol, onClose }: Props) {
         {/* Chart */}
         <div style={{ padding: '0' }}>
           {loading && (
-            <div style={{ height: '420px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+            <div style={{ height: '420px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5a7a94' }}>
               Loading chart data…
             </div>
           )}

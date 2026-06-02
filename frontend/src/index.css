@@ -13,20 +13,20 @@ body {
 }
 
 /* Terminal theme scrollbar */
-.terminal-scroll ::-webkit-scrollbar-track { background: #0d1117; }
-.terminal-scroll ::-webkit-scrollbar-thumb { background: #1a2233; }
-.terminal-scroll ::-webkit-scrollbar-thumb:hover { background: #00e5b0; }
+.terminal-scroll ::-webkit-scrollbar-track { background: #0d1a27; }
+.terminal-scroll ::-webkit-scrollbar-thumb { background: #1a2f47; }
+.terminal-scroll ::-webkit-scrollbar-thumb:hover { background: #579bd8; }
 
 /* Terminal mode: remap Tailwind dark-mode grays to terminal palette */
-html.terminal .dark\:bg-gray-900 { background-color: #07090f !important; }
-html.terminal .dark\:bg-gray-800 { background-color: #0d1117 !important; }
-html.terminal .dark\:bg-gray-700 { background-color: #111827 !important; }
-html.terminal .dark\:bg-gray-750 { background-color: #111827 !important; }
-html.terminal .dark\:border-gray-800 { border-color: #1a2233 !important; }
-html.terminal .dark\:border-gray-700 { border-color: #1a2233 !important; }
-html.terminal .dark\:border-gray-600 { border-color: #243044 !important; }
-html.terminal .dark\:text-gray-300 { color: #94a3b8 !important; }
-html.terminal .dark\:text-gray-400 { color: #637087 !important; }
+html.terminal .dark\:bg-gray-900 { background-color: #070c14 !important; }
+html.terminal .dark\:bg-gray-800 { background-color: #0d1a27 !important; }
+html.terminal .dark\:bg-gray-700 { background-color: #111f30 !important; }
+html.terminal .dark\:bg-gray-750 { background-color: #111f30 !important; }
+html.terminal .dark\:border-gray-800 { border-color: #1a2f47 !important; }
+html.terminal .dark\:border-gray-700 { border-color: #1a2f47 !important; }
+html.terminal .dark\:border-gray-600 { border-color: #1e3550 !important; }
+html.terminal .dark\:text-gray-300 { color: #94b8d4 !important; }
+html.terminal .dark\:text-gray-400 { color: #6b8fa8 !important; }
 html.terminal .dark\:hover\:bg-gray-800:hover { background-color: rgba(255,255,255,0.04) !important; }
 html.terminal .dark\:hover\:bg-gray-700:hover { background-color: rgba(255,255,255,0.06) !important; }
 html.terminal select,
@@ -36,5 +36,5 @@ html.terminal textarea {
 }
 html.terminal .dark\:bg-gray-700 select,
 html.terminal select.dark\:bg-gray-700 {
-  background-color: #111827 !important;
+  background-color: #111f30 !important;
 }

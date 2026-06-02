@@ -9,17 +9,17 @@ import TradeChartModal from '../components/TradeChartModal'
 import { usePolling } from '../hooks/usePolling'
 
 const T = {
-  bg: '#07090f', surface: '#0d1117', surface2: '#111827', border: '#1a2233',
-  accent: '#00e5b0', accentDim: 'rgba(0,229,176,0.1)',
-  text: '#e2e8f0', muted: '#637087', dim: '#4a5568',
-  up: '#10b981', down: '#ef4444', warn: '#f59e0b', blue: '#60a5fa',
+  bg: '#070c14', surface: '#0d1a27', surface2: '#111f30', border: '#1a2f47',
+  accent: '#579bd8', accentDim: 'rgba(87,155,216,0.1)',
+  text: '#e2e8f0', muted: '#6b8fa8', dim: '#3d5a72',
+  up: '#10b981', down: '#ef4444', warn: '#f59e0b', blue: '#7bb8e8',
 }
 
 const pulseStyle = `
   @keyframes tpulse {
-    0% { box-shadow: 0 0 0 0 rgba(0,229,176,0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(0,229,176,0); }
-    100% { box-shadow: 0 0 0 0 rgba(0,229,176,0); }
+    0% { box-shadow: 0 0 0 0 rgba(87,155,216,0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(87,155,216,0); }
+    100% { box-shadow: 0 0 0 0 rgba(87,155,216,0); }
   }
 `
 

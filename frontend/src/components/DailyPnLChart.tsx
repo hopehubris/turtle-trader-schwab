@@ -40,7 +40,7 @@ export default function DailyPnLChart({ data }: Props) {
         <ReferenceLine y={0} stroke="#9ca3af" />
         <Bar
           dataKey="Daily P&L"
-          fill="#3b82f6"
+          fill="#579bd8"
           radius={[2, 2, 0, 0]}
           // Color negative bars red
           // recharts doesn't natively support per-bar colors easily, using fill as default

@@ -22,13 +22,13 @@ function TerminalSidebar() {
 
   return (
     <aside
-      style={{ width: 220, background: '#0d1117', borderRight: '1px solid #1a2233', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}
+      style={{ width: 220, background: '#0d1a27', borderRight: '1px solid #1a2f47', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}
       className="hidden md:flex"
     >
       {/* Logo */}
-      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1a2233' }}>
+      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1a2f47' }}>
         <div style={{ fontSize: 18, fontWeight: 700, color: '#e2e8f0', fontFamily: "'Sora', sans-serif" }}>🐢 Turtle Trader</div>
-        <div style={{ fontSize: 10, color: '#637087', fontFamily: "'JetBrains Mono', monospace", marginTop: 4, letterSpacing: '0.1em' }}>SCHWAB · TERMINAL</div>
+        <div style={{ fontSize: 10, color: '#6b8fa8', fontFamily: "'JetBrains Mono', monospace", marginTop: 4, letterSpacing: '0.1em' }}>SCHWAB · TERMINAL</div>
       </div>
 
       {/* Nav */}
@@ -47,8 +47,8 @@ function TerminalSidebar() {
                 fontFamily: "'Sora', sans-serif",
                 transition: 'all 0.15s',
                 ...(isActive
-                  ? { color: '#00e5b0', background: 'rgba(0,229,176,0.1)', border: '1px solid rgba(0,229,176,0.15)' }
-                  : { color: '#637087', background: 'transparent', border: '1px solid transparent' }),
+                  ? { color: '#579bd8', background: 'rgba(87,155,216,0.1)', border: '1px solid rgba(87,155,216,0.15)' }
+                  : { color: '#6b8fa8', background: 'transparent', border: '1px solid transparent' }),
               }}
             >
               <span style={{ fontSize: 14, width: 18, textAlign: 'center' }}>{item.icon}</span>
@@ -59,8 +59,8 @@ function TerminalSidebar() {
       </nav>
 
       {/* View Switcher */}
-      <div style={{ padding: '12px 8px', borderTop: '1px solid #1a2233' }}>
-        <div style={{ fontSize: 10, color: '#4a5568', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em', paddingLeft: 4 }}>VIEW MODE</div>
+      <div style={{ padding: '12px 8px', borderTop: '1px solid #1a2f47' }}>
+        <div style={{ fontSize: 10, color: '#3d5a72', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em', paddingLeft: 4 }}>VIEW MODE</div>
         <div style={{ display: 'flex', gap: 4 }}>
           <button
             onClick={() => setView('classic')}
@@ -69,8 +69,8 @@ function TerminalSidebar() {
               fontSize: 11, fontWeight: 600, fontFamily: "'Sora', sans-serif",
               transition: 'all 0.15s',
               ...(theme === 'classic'
-                ? { background: '#60a5fa', color: '#07090f' }
-                : { background: '#1a2233', color: '#637087' }),
+                ? { background: '#7bb8e8', color: '#070c14' }
+                : { background: '#1a2f47', color: '#6b8fa8' }),
             }}
           >
             Classic
@@ -82,8 +82,8 @@ function TerminalSidebar() {
               fontSize: 11, fontWeight: 600, fontFamily: "'Sora', sans-serif",
               transition: 'all 0.15s',
               ...(theme === 'terminal'
-                ? { background: '#00e5b0', color: '#07090f' }
-                : { background: '#1a2233', color: '#637087' }),
+                ? { background: '#579bd8', color: '#070c14' }
+                : { background: '#1a2f47', color: '#6b8fa8' }),
             }}
           >
             Terminal
@@ -126,7 +126,7 @@ function ClassicNav() {
               style={{
                 padding: '4px 10px', borderRadius: 5, border: 'none', cursor: 'pointer',
                 fontSize: 11, fontWeight: 600,
-                ...(theme === 'classic' ? { background: '#3b82f6', color: '#fff' } : { background: '#f3f4f6', color: '#6b7280' }),
+                ...(theme === 'classic' ? { background: '#579bd8', color: '#fff' } : { background: '#f3f4f6', color: '#6b7280' }),
               }}
             >
               Classic
@@ -136,7 +136,7 @@ function ClassicNav() {
               style={{
                 padding: '4px 10px', borderRadius: 5, border: 'none', cursor: 'pointer',
                 fontSize: 11, fontWeight: 600,
-                ...(theme === 'terminal' ? { background: '#00e5b0', color: '#07090f' } : { background: '#f3f4f6', color: '#6b7280' }),
+                ...(theme === 'terminal' ? { background: '#579bd8', color: '#070c14' } : { background: '#f3f4f6', color: '#6b7280' }),
               }}
             >
               Terminal
@@ -155,7 +155,7 @@ function MobileBottomNav() {
   return (
     <nav
       className="md:hidden fixed bottom-0 left-0 right-0 z-50"
-      style={{ background: '#0d1117', borderTop: '1px solid #1a2233' }}
+      style={{ background: '#0d1a27', borderTop: '1px solid #1a2f47' }}
     >
       <div style={{ display: 'flex' }}>
         {mobileItems.map((item) => {
@@ -168,7 +168,7 @@ function MobileBottomNav() {
               style={{
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
                 padding: '10px 0', textDecoration: 'none', gap: 2,
-                color: isActive ? '#00e5b0' : '#637087',
+                color: isActive ? '#579bd8' : '#6b8fa8',
               }}
             >
               <span style={{ fontSize: 16 }}>{item.icon}</span>
@@ -195,7 +195,7 @@ function AppContent() {
 
   if (theme === 'terminal') {
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', background: '#07090f' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', background: '#070c14' }}>
         <TerminalSidebar />
         <main style={{ flex: 1, padding: '20px 24px', paddingBottom: 64, overflowY: 'auto' }} className="md:pb-0">
           <Routes>
