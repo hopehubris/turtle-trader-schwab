@@ -97,7 +97,9 @@ printf '%s' "$ACCOUNTS_RESPONSE" | python3 -c '
 import json, sys
 accounts = json.load(sys.stdin)
 for i, a in enumerate(accounts):
-    print(f"  [{i+1}] Account: {a[\"accountNumber\"]}  (hash: {a[\"hashValue\"][:12]}...)")
+    num = a["accountNumber"]
+    h = a["hashValue"][:12]
+    print("  [" + str(i+1) + "] Account: " + num + "  (hash: " + h + "...)")
 '
 
 echo ""
