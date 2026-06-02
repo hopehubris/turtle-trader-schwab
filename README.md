@@ -60,13 +60,15 @@ Alternatively, follow the manual walkthrough in **[docs/SCHWAB_SETUP.md](docs/SC
 ### 2. Install and run
 
 ```bash
-# Backend
+# Terminal 1 — backend
 cd backend
 npm install
 npx prisma migrate dev
 npm run dev
+```
 
-# Frontend (new terminal)
+```bash
+# Terminal 2 — frontend
 cd frontend
 npm install
 npm run dev
