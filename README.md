@@ -41,22 +41,23 @@ Identical feature set and UI to the original Alpaca-based Turtle Trader — only
 
 ### 1. Get Schwab API credentials
 
-See **[docs/SCHWAB_SETUP.md](docs/SCHWAB_SETUP.md)** for the full walkthrough.
-
-You'll need:
-- `SCHWAB_CLIENT_ID`
-- `SCHWAB_CLIENT_SECRET`
-- `SCHWAB_REFRESH_TOKEN`
-- `SCHWAB_ACCOUNT_NUMBER`
-
-### 2. Configure environment
+Run the interactive setup script — it walks through the full OAuth2 flow and writes `backend/.env` automatically:
 
 ```bash
-cp backend/.env.example backend/.env
-# Edit backend/.env with your credentials
+bash scripts/setup-credentials.sh
 ```
 
-### 3. Install and run
+The script will:
+1. Prompt for your App Key and App Secret from [developer.schwab.com](https://developer.schwab.com)
+2. Print the authorization URL to open in your browser
+3. Accept the redirect URL and extract the authorization code
+4. Exchange it for tokens via the Schwab token endpoint
+5. Fetch your encrypted account number
+6. Write `backend/.env` with all four credentials (file created `0600`)
+
+Alternatively, follow the manual walkthrough in **[docs/SCHWAB_SETUP.md](docs/SCHWAB_SETUP.md)**.
+
+### 2. Install and run
 
 ```bash
 # Backend
@@ -116,6 +117,8 @@ turtle-trader-schwab/
 │       ├── api/client.ts              # Typed API client
 │       ├── pages/                     # Dashboard, Trades, Signals, Settings, Help
 │       └── components/                # Reusable UI components
+├── scripts/
+│   └── setup-credentials.sh           # Interactive Schwab OAuth2 setup
 └── docs/                              # This documentation
 ```
 
