@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Trade {
+  id             Int         @id @default(autoincrement())
+  symbol         String
+  side           String      @default("long")   // long | short
+  system         Int         @default(1)         // 1 | 2
+  status         String      @default("open")    // open | closed
+  broker         String      @default("schwab")  // schwab | fidelity | manual
+  entryDate      String
+  exitDate       String?
+  exitReason     String?
+  exitPrice      Float?
+  unitCount      Int         @default(1)
+  currentStop    Float?
+  totalShares    Float
+  avgEntryPrice  Float
+  dollarAmount   Float
+  pnl            Float?
+  pnlPct         Float?
+  notes          String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  units          TradeUnit[]
+}
+
+model TradeUnit {
+  id          Int     @id @default(autoincrement())
+  tradeId     Int
+  trade       Trade   @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  unitNumber  Int     // 1-4
+  entryDate   String
+  entryPrice  Float
+  shares      Float
+  atrAtEntry  Float
+  stopLoss    Float
+  status      String  @default("open")  // open | closed | stopped
+  createdAt   DateTime @default(now())
+}
+
+model Signal {
+  id              Int      @id @default(autoincrement())
+  symbol          String
+  scanDate        String
+  system          Int      @default(1)     // 1 | 2
+  direction       String   @default("long") // long | short
+  close           Float?
+  dcEntryUpper    Float?
+  dcEntryLower    Float?
+  dcExitLower     Float?
+  dcExitUpper     Float?
+  atrValue        Float?
+  entryBreakout   Boolean  @default(false)
+  exitBreakout    Boolean  @default(false)
+  unitAddSignal   Boolean  @default(false)
+  stopTriggered   Boolean  @default(false)
+  actionTaken     String   @default("no_signal")
+  createdAt       DateTime @default(now())
+}
+
+model Config {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model DailyPnL {
+  id                  Int      @id @default(autoincrement())
+  date                String   @unique
+  equity              Float
+  dailyPnl            Float    @default(0)
+  cumulativePnl       Float    @default(0)
+  openPositionsCount  Int      @default(0)
+  createdAt           DateTime @default(now())
+}

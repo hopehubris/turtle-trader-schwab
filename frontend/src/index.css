@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Terminal theme scrollbar */
+.terminal-scroll ::-webkit-scrollbar-track { background: #0d1117; }
+.terminal-scroll ::-webkit-scrollbar-thumb { background: #1a2233; }
+.terminal-scroll ::-webkit-scrollbar-thumb:hover { background: #00e5b0; }
+
+/* Terminal mode: remap Tailwind dark-mode grays to terminal palette */
+html.terminal .dark\:bg-gray-900 { background-color: #07090f !important; }
+html.terminal .dark\:bg-gray-800 { background-color: #0d1117 !important; }
+html.terminal .dark\:bg-gray-700 { background-color: #111827 !important; }
+html.terminal .dark\:bg-gray-750 { background-color: #111827 !important; }
+html.terminal .dark\:border-gray-800 { border-color: #1a2233 !important; }
+html.terminal .dark\:border-gray-700 { border-color: #1a2233 !important; }
+html.terminal .dark\:border-gray-600 { border-color: #243044 !important; }
+html.terminal .dark\:text-gray-300 { color: #94a3b8 !important; }
+html.terminal .dark\:text-gray-400 { color: #637087 !important; }
+html.terminal .dark\:hover\:bg-gray-800:hover { background-color: rgba(255,255,255,0.04) !important; }
+html.terminal .dark\:hover\:bg-gray-700:hover { background-color: rgba(255,255,255,0.06) !important; }
+html.terminal select,
+html.terminal input,
+html.terminal textarea {
+  color-scheme: dark;
+}
+html.terminal .dark\:bg-gray-700 select,
+html.terminal select.dark\:bg-gray-700 {
+  background-color: #111827 !important;
+}
