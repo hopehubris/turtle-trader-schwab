@@ -31,13 +31,13 @@ echo "(The page won't load — that's expected. Copy the URL from the address ba
 echo ""
 read -rp "Paste the full redirect URL here: " REDIRECT_URL
 
-# Extract the code from the URL
-AUTH_CODE=$(python3 -c "
+# Extract the code via env var — avoids shell interpolation into Python source
+AUTH_CODE=$(REDIRECT_URL="$REDIRECT_URL" python3 -c '
+import os
 from urllib.parse import urlparse, parse_qs
-url = '''$REDIRECT_URL'''
-qs = parse_qs(urlparse(url).query)
-print(qs.get('code', [''])[0])
-")
+qs = parse_qs(urlparse(os.environ["REDIRECT_URL"]).query)
+print(qs.get("code", [""])[0])
+')
 
 if [[ -z "$AUTH_CODE" ]]; then
   echo ""
@@ -51,15 +51,21 @@ echo "  Authorization code found."
 echo ""
 echo "Step 2: Exchanging authorization code for tokens..."
 
-CREDENTIALS=$(python3 -c "import base64; print(base64.b64encode(b'${APP_KEY}:${APP_SECRET}').decode())")
+# Build Basic auth header via env vars — keeps secrets out of process argv
+CREDENTIALS=$(APP_KEY="$APP_KEY" APP_SECRET="$APP_SECRET" python3 -c '
+import os, base64
+pair = f"{os.environ[\"APP_KEY\"]}:{os.environ[\"APP_SECRET\"]}"
+print(base64.b64encode(pair.encode()).decode())
+')
 
 TOKEN_RESPONSE=$(curl -s -X POST "https://api.schwabapi.com/v1/oauth/token" \
   -H "Authorization: Basic ${CREDENTIALS}" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=authorization_code&code=${AUTH_CODE}&redirect_uri=https://127.0.0.1")
 
-REFRESH_TOKEN=$(python3 -c "import json,sys; d=json.loads('''${TOKEN_RESPONSE}'''); print(d.get('refresh_token',''))" 2>/dev/null || true)
-ACCESS_TOKEN=$(python3 -c "import json,sys; d=json.loads('''${TOKEN_RESPONSE}'''); print(d.get('access_token',''))" 2>/dev/null || true)
+# Parse JSON via stdin — avoids interpolating server response into Python source
+REFRESH_TOKEN=$(printf '%s' "$TOKEN_RESPONSE" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("refresh_token",""))' 2>/dev/null || true)
+ACCESS_TOKEN=$(printf '%s' "$TOKEN_RESPONSE"  | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("access_token",""))' 2>/dev/null || true)
 
 if [[ -z "$REFRESH_TOKEN" || -z "$ACCESS_TOKEN" ]]; then
   echo ""
@@ -76,7 +82,8 @@ echo "Step 3: Fetching your account number..."
 ACCOUNTS_RESPONSE=$(curl -s "https://api.schwabapi.com/trader/v1/accounts/accountNumbers" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}")
 
-ACCOUNT_HASH=$(python3 -c "import json; d=json.loads('''${ACCOUNTS_RESPONSE}'''); print(d[0]['hashValue'])" 2>/dev/null || true)
+# Parse JSON via stdin
+ACCOUNT_HASH=$(printf '%s' "$ACCOUNTS_RESPONSE" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d[0]["hashValue"])' 2>/dev/null || true)
 
 if [[ -z "$ACCOUNT_HASH" ]]; then
   echo ""
@@ -93,6 +100,7 @@ echo "Step 4: Writing credentials to backend/.env..."
 BACKEND_DIR="$(dirname "$ENV_FILE")"
 APP_DIR="$(dirname "$BACKEND_DIR")"
 
+# umask 077 ensures the file is created 0600 (owner-only) atomically
 (umask 077; cat > "$ENV_FILE" <<EOF
 SCHWAB_CLIENT_ID=${APP_KEY}
 SCHWAB_CLIENT_SECRET=${APP_SECRET}
