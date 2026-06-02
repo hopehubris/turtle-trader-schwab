@@ -22,13 +22,13 @@ function TerminalSidebar() {
 
   return (
     <aside
-      style={{ width: 220, background: '#0d1a27', borderRight: '1px solid #1a2f47', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}
+      style={{ width: 220, background: '#579bd8', borderRight: '1px solid #4a8bc4', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}
       className="hidden md:flex"
     >
       {/* Logo */}
-      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1a2f47' }}>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#e2e8f0', fontFamily: "'Sora', sans-serif" }}>🐢 Turtle Trader</div>
-        <div style={{ fontSize: 10, color: '#6b8fa8', fontFamily: "'JetBrains Mono', monospace", marginTop: 4, letterSpacing: '0.1em' }}>SCHWAB · TERMINAL</div>
+      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', fontFamily: "'Sora', sans-serif" }}>🐢 Turtle Trader</div>
+        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: "'JetBrains Mono', monospace", marginTop: 4, letterSpacing: '0.1em' }}>SCHWAB · TERMINAL</div>
       </div>
 
       {/* Nav */}
@@ -47,8 +47,8 @@ function TerminalSidebar() {
                 fontFamily: "'Sora', sans-serif",
                 transition: 'all 0.15s',
                 ...(isActive
-                  ? { color: '#579bd8', background: 'rgba(87,155,216,0.1)', border: '1px solid rgba(87,155,216,0.15)' }
-                  : { color: '#6b8fa8', background: 'transparent', border: '1px solid transparent' }),
+                  ? { color: '#ffffff', background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)' }
+                  : { color: 'rgba(255,255,255,0.75)', background: 'transparent', border: '1px solid transparent' }),
               }}
             >
               <span style={{ fontSize: 14, width: 18, textAlign: 'center' }}>{item.icon}</span>
@@ -59,8 +59,8 @@ function TerminalSidebar() {
       </nav>
 
       {/* View Switcher */}
-      <div style={{ padding: '12px 8px', borderTop: '1px solid #1a2f47' }}>
-        <div style={{ fontSize: 10, color: '#3d5a72', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em', paddingLeft: 4 }}>VIEW MODE</div>
+      <div style={{ padding: '12px 8px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em', paddingLeft: 4 }}>VIEW MODE</div>
         <div style={{ display: 'flex', gap: 4 }}>
           <button
             onClick={() => setView('classic')}
@@ -69,8 +69,8 @@ function TerminalSidebar() {
               fontSize: 11, fontWeight: 600, fontFamily: "'Sora', sans-serif",
               transition: 'all 0.15s',
               ...(theme === 'classic'
-                ? { background: '#7bb8e8', color: '#070c14' }
-                : { background: '#1a2f47', color: '#6b8fa8' }),
+                ? { background: '#ffffff', color: '#579bd8' }
+                : { background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }),
             }}
           >
             Classic
@@ -82,8 +82,8 @@ function TerminalSidebar() {
               fontSize: 11, fontWeight: 600, fontFamily: "'Sora', sans-serif",
               transition: 'all 0.15s',
               ...(theme === 'terminal'
-                ? { background: '#579bd8', color: '#070c14' }
-                : { background: '#1a2f47', color: '#6b8fa8' }),
+                ? { background: '#ffffff', color: '#579bd8' }
+                : { background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }),
             }}
           >
             Terminal
