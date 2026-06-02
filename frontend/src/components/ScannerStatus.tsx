@@ -43,10 +43,7 @@ export default function ScannerStatus({ status, onScanComplete }: Props) {
           {isRunning ? (
             <button onClick={handleStop} className="px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200">Stop</button>
           ) : (
-            <>
-              <button onClick={() => handleScan(false)} className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Run Scan</button>
-              <button onClick={() => handleScan(true)} className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200">Force</button>
-            </>
+            <button onClick={() => handleScan(true)} className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Run Scan</button>
           )}
         </div>
       </div>
@@ -55,6 +52,9 @@ export default function ScannerStatus({ status, onScanComplete }: Props) {
       )}
       {lastResult && (
         <div className="text-xs text-gray-600 dark:text-gray-400 border-t pt-2 mt-1 dark:border-gray-700 space-y-1">
+          {!lastResult.tradingDay && (
+            <div className="text-amber-600 dark:text-amber-400 font-medium">Not a trading day — no scan performed</div>
+          )}
           <div>
             <span className="font-medium">Last result:</span>{' '}
             {lastResult.entriesOpened} entries · {lastResult.exitsExecuted} exits · {lastResult.unitsAdded} units added

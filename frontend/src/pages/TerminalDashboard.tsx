@@ -446,7 +446,7 @@ export default function TerminalDashboard() {
   async function handleTriggerScan() {
     setScanning(true)
     try {
-      await triggerScan()
+      await triggerScan(true)
       showToast('Scan triggered', 'success')
       await refresh()
     } catch {
