@@ -93,7 +93,7 @@ echo "Step 4: Writing credentials to backend/.env..."
 BACKEND_DIR="$(dirname "$ENV_FILE")"
 APP_DIR="$(dirname "$BACKEND_DIR")"
 
-cat > "$ENV_FILE" <<EOF
+(umask 077; cat > "$ENV_FILE" <<EOF
 SCHWAB_CLIENT_ID=${APP_KEY}
 SCHWAB_CLIENT_SECRET=${APP_SECRET}
 SCHWAB_REFRESH_TOKEN=${REFRESH_TOKEN}
@@ -104,6 +104,7 @@ NODE_ENV=development
 LOG_LEVEL=info
 LOG_DIR=./logs
 EOF
+)
 
 echo ""
 echo "=============================================="
